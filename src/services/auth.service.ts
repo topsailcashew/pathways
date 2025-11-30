@@ -6,7 +6,7 @@ import {
   User as FirebaseUser,
 } from 'firebase/auth';
 import { auth } from './firebase';
-import { User } from '@types/models';
+import { User } from '@/types/models';
 
 export const authService = {
   async signIn(email: string, password: string): Promise<FirebaseUser> {
