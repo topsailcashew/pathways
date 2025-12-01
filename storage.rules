@@ -1,0 +1,82 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    // Helper function to check if user is authenticated
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    // Helper function to validate file size (10MB max)
+    function isValidSize() {
+      return request.resource.size < 10 * 1024 * 1024;
+    }
+
+    // Helper function to validate image file types
+    function isImageFile() {
+      return request.resource.contentType.matches('image/.*');
+    }
+
+    // Helper function to validate document file types
+    function isDocumentFile() {
+      return request.resource.contentType.matches('application/pdf')
+          || request.resource.contentType.matches('application/msword')
+          || request.resource.contentType.matches('application/vnd.openxmlformats-officedocument.*');
+    }
+
+    // User profile images
+    match /users/{userId}/profile/{fileName} {
+      // Users can read their own profile images, authenticated users can read all
+      allow read: if isAuthenticated();
+      // Users can only upload/update/delete their own profile images
+      allow write: if isAuthenticated()
+                   && request.auth.uid == userId
+                   && isImageFile()
+                   && isValidSize();
+    }
+
+    // Member photos
+    match /members/{memberId}/photo/{fileName} {
+      allow read: if isAuthenticated();
+      allow write: if isAuthenticated()
+                   && isImageFile()
+                   && isValidSize();
+    }
+
+    // Event images
+    match /events/{eventId}/images/{fileName} {
+      allow read: if isAuthenticated();
+      allow write: if isAuthenticated()
+                   && isImageFile()
+                   && isValidSize();
+    }
+
+    // Group images
+    match /groups/{groupId}/images/{fileName} {
+      allow read: if isAuthenticated();
+      allow write: if isAuthenticated()
+                   && isImageFile()
+                   && isValidSize();
+    }
+
+    // Ministry documents and images
+    match /ministries/{ministryId}/{fileType}/{fileName} {
+      allow read: if isAuthenticated();
+      allow write: if isAuthenticated()
+                   && (isImageFile() || isDocumentFile())
+                   && isValidSize();
+    }
+
+    // Communication attachments
+    match /communications/{commId}/attachments/{fileName} {
+      allow read: if isAuthenticated();
+      allow write: if isAuthenticated()
+                   && (isImageFile() || isDocumentFile())
+                   && isValidSize();
+    }
+
+    // Deny all other access
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}

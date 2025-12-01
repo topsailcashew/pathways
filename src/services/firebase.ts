@@ -28,12 +28,22 @@ export const storage = getStorage(app);
 
 // Initialize App Check
 if (import.meta.env.PROD) {
-  initializeAppCheck(app, {
-    provider: new ReCaptchaV3Provider('placeholder-recaptcha-key'),
-    isTokenAutoRefreshEnabled: true,
-  });
+  // Production: Use reCAPTCHA v3
+  const recaptchaSiteKey = import.meta.env.VITE_RECAPTCHA_SITE_KEY;
+  if (!recaptchaSiteKey) {
+    console.error('VITE_RECAPTCHA_SITE_KEY is not set. App Check will not be initialized.');
+  } else {
+    initializeAppCheck(app, {
+      provider: new ReCaptchaV3Provider(recaptchaSiteKey),
+      isTokenAutoRefreshEnabled: true,
+    });
+  }
 } else {
   // Development mode - use debug token
-  (self as any).FIREBASE_APPCHECK_DEBUG_TOKEN =
-    import.meta.env.VITE_FIREBASE_APP_CHECK_DEBUG_TOKEN;
+  const debugToken = import.meta.env.VITE_FIREBASE_APP_CHECK_DEBUG_TOKEN;
+  if (debugToken && debugToken !== 'placeholder_update_later') {
+    (self as any).FIREBASE_APPCHECK_DEBUG_TOKEN = debugToken;
+  } else {
+    console.warn('App Check debug token not configured. Set VITE_FIREBASE_APP_CHECK_DEBUG_TOKEN in .env.local');
+  }
 }
