@@ -32,13 +32,18 @@ export function People() {
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-100">
-            {members.map((m: any) => (
-              <tr key={m.id} className="hover:bg-slate-50 cursor-pointer transition-colors">
-                <td className="px-6 py-4 font-bold text-slate-800">{m.name}</td>
-                <td className="px-6 py-4 text-slate-600">{(STAGES as any)[m.currentStage?.toUpperCase()]?.label || m.currentStage}</td>
-                <td className="px-6 py-4 text-right"><ChevronRight size={16} className="text-slate-300 ml-auto" /></td>
-              </tr>
-            ))}
+            {members.map((m: any) => {
+              const stageKey = m.currentStage?.toUpperCase?.() || '';
+              const stageLabel = (STAGES as any)[stageKey]?.label || m.currentStage || 'Unknown';
+
+              return (
+                <tr key={m.id} className="hover:bg-slate-50 cursor-pointer transition-colors">
+                  <td className="px-6 py-4 font-bold text-slate-800">{m.name || 'Unknown'}</td>
+                  <td className="px-6 py-4 text-slate-600">{stageLabel}</td>
+                  <td className="px-6 py-4 text-right"><ChevronRight size={16} className="text-slate-300 ml-auto" /></td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>
