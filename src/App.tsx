@@ -1,17 +1,17 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import { AuthProvider } from '@contexts/AuthContext';
-import { AppShell } from '@components/layout/AppShell';
-import { ProtectedRoute } from '@components/layout/ProtectedRoute';
-import { Login } from '@pages/Login';
-import { Dashboard } from '@pages/Dashboard';
-import { Pipeline } from '@pages/Pipeline';
-import { People } from '@pages/People';
-import { CheckIn } from '@pages/CheckIn';
-import { Groups } from '@pages/Groups';
-import { Workflows } from '@pages/Workflows';
-import { Ministries } from '@pages/Ministries';
-import { Tasks } from '@pages/Tasks';
-import { Reports } from '@pages/Reports';
+import { AuthProvider } from '@/contexts/AuthContext';
+import { AppShell } from '@/components/layout/AppShell';
+import { ProtectedRoute } from '@/components/layout/ProtectedRoute';
+import { Login } from '@/pages/Login';
+import { Dashboard } from '@/pages/Dashboard';
+import { Pipeline } from '@/pages/Pipeline';
+import { People } from '@/pages/People';
+import { CheckIn } from '@/pages/CheckIn';
+import { Groups } from '@/pages/Groups';
+import { Workflows } from '@/pages/Workflows';
+import { Ministries } from '@/pages/Ministries';
+import { Tasks } from '@/pages/Tasks';
+import { Reports } from '@/pages/Reports';
 
 function App() {
   return (

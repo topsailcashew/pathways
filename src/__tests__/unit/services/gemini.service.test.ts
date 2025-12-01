@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { geminiService } from '@services/gemini.service';
+import { geminiService } from '@/services/gemini.service';
 
 global.fetch = vi.fn();
 
