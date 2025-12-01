@@ -1,4 +1,4 @@
-import { Track, Stage } from '@types/enums';
+import { Track, Stage } from '../types/enums';
 
 export const NEWCOMER_STAGES = [
   Stage.SUNDAY_EXPERIENCE,
