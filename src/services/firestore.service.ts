@@ -10,11 +10,9 @@ import {
   where,
   orderBy,
   Timestamp,
-  QueryConstraint,
 } from 'firebase/firestore';
 import { db } from './firebase';
-import { Member, Task, Communication, Event, ConnectGroup, Workflow, Ministry } from '@types/models';
-import { Track } from '@types/enums';
+import { Member, Task, Communication, Event } from '@/types/models';
 
 const COLLECTIONS = {
   MEMBERS: 'members',

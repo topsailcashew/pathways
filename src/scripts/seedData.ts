@@ -1,7 +1,7 @@
 import { config } from 'dotenv';
 import { resolve } from 'path';
 import { initializeApp } from 'firebase/app';
-import { getFirestore, collection, addDoc, Timestamp, writeBatch, doc } from 'firebase/firestore';
+import { getFirestore, collection, addDoc, Timestamp } from 'firebase/firestore';
 import {
   INITIAL_MEMBERS,
   INITIAL_TASKS,
@@ -206,7 +206,10 @@ async function seedDatabase() {
     const members = transformMembers();
     const memberPromises = members.map(async (member, index) => {
       const docRef = await addDoc(collection(db, 'members'), member);
-      memberIdMap.set(INITIAL_MEMBERS[index].id, docRef.id);
+      const initialMember = INITIAL_MEMBERS[index];
+      if (initialMember) {
+        memberIdMap.set(initialMember.id, docRef.id);
+      }
       return docRef.id;
     });
     const memberIds = await Promise.all(memberPromises);

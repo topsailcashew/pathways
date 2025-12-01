@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Plus, ListTodo } from 'lucide-react';
 import { useMembers } from '@/hooks/useMembers';
-import { Track, Stage } from '@/types/enums';
+import { Track } from '@/types/enums';
 import { NEWCOMER_STAGES, NEW_BELIEVER_STAGES } from '@/utils/constants';
 
 export function Pipeline() {

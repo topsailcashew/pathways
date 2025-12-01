@@ -1,5 +1,6 @@
 import { ChevronRight } from 'lucide-react';
 import { useMembers } from '@/hooks/useMembers';
+import { STAGES } from '@/data/mockData';
 
 export function People() {
   const { members, loading } = useMembers();
@@ -34,7 +35,7 @@ export function People() {
             {members.map((m: any) => (
               <tr key={m.id} className="hover:bg-slate-50 cursor-pointer transition-colors">
                 <td className="px-6 py-4 font-bold text-slate-800">{m.name}</td>
-                <td className="px-6 py-4 text-slate-600">{(STAGES as any)[m.stage.toUpperCase()]?.label || m.stage}</td>
+                <td className="px-6 py-4 text-slate-600">{(STAGES as any)[m.currentStage?.toUpperCase()]?.label || m.currentStage}</td>
                 <td className="px-6 py-4 text-right"><ChevronRight size={16} className="text-slate-300 ml-auto" /></td>
               </tr>
             ))}

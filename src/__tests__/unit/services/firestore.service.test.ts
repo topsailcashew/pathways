@@ -1,7 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { firestoreService } from '@services/firestore.service';
-import { Track } from '@types/enums';
-import { Timestamp } from 'firebase/firestore';
+import { Track } from '@/types/enums';
 
 vi.mock('@services/firebase', () => ({
   db: {},
