@@ -22,12 +22,12 @@ export function Dashboard() {
     const total = members.length;
     const newcomers = members.filter((m: any) => m.track === Track.NEWCOMER).length;
     const believers = members.filter((m: any) => m.track === Track.NEW_BELIEVER).length;
-    const serving = members.filter((m: any) => m.stage === 'serve').length;
-    const overdueTasks = tasks.filter((t: any) => t.status === 'overdue').length;
+    const serving = members.filter((m: any) => m.currentStage === 'serve').length;
+    const overdueTasks = tasks.filter((t: any) => t.status === 'PENDING').length;
     return { total, newcomers, believers, serving, overdueTasks };
   };
 
-  const countInStage = (stageId: string) => members.filter((m: any) => m.stage === stageId).length;
+  const countInStage = (stageId: string) => members.filter((m: any) => m.currentStage === stageId).length;
 
   const stats = getStats();
 

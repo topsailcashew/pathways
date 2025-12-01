@@ -33,12 +33,15 @@ export function CheckIn() {
               <div className="bg-blue-50 text-blue-600 p-3 rounded-lg">
                 <CalendarCheck size={24} />
               </div>
-              <span className="text-xs font-bold bg-slate-100 text-slate-600 px-2 py-1 rounded">{event.attendees} Registered</span>
+              <span className="text-xs font-bold bg-slate-100 text-slate-600 px-2 py-1 rounded">
+                {event.attendees?.length || 0} Registered
+              </span>
             </div>
             <h3 className="font-bold text-lg text-slate-800 mb-1">{event.name}</h3>
             <div className="text-sm text-slate-500 space-y-1 mb-4">
-              <p>{event.date} • {event.time}</p>
-              <p>{event.location}</p>
+              <p>
+                {event.date?.toDate?.()?.toLocaleDateString() || 'TBD'} • {event.type}
+              </p>
             </div>
             <div className="flex gap-2">
               <button
