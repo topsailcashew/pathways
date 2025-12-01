@@ -67,7 +67,7 @@ export function Pipeline() {
                     >
                       <div className="flex justify-between items-start mb-2">
                         <div className="flex items-center gap-2">
-                          <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-white text-xs ${member.type === TRACKS.NEWCOMER ? 'bg-blue-500' : 'bg-amber-500'}`}>
+                          <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-white text-xs ${member.track === Track.NEWCOMER ? 'bg-blue-500' : 'bg-amber-500'}`}>
                             {member.name.charAt(0)}
                           </div>
                           <div className="flex flex-col">
