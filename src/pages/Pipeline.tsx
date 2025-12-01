@@ -47,7 +47,7 @@ export function Pipeline() {
       <div className="flex-1 overflow-x-auto pb-4 px-4">
         <div className="flex gap-4 min-w-max h-full">
           {stages.map((stage: any) => {
-            const stageMembers = members.filter((m: any) => m.stage === stage.id);
+            const stageMembers = members.filter((m: any) => m.currentStage === stage.id);
             const isShared = stage.track === 'shared';
 
             return (
@@ -72,14 +72,16 @@ export function Pipeline() {
                           </div>
                           <div className="flex flex-col">
                             <span className="font-bold text-slate-800 text-sm leading-tight">{member.name}</span>
-                            <span className="text-[10px] text-slate-400">{member.joined}</span>
+                            <span className="text-[10px] text-slate-400">
+                              {member.createdAt?.toDate?.()?.toLocaleDateString() || 'New'}
+                            </span>
                           </div>
                         </div>
                       </div>
 
                       <div className="flex flex-wrap gap-1 mt-2 mb-3">
-                        {member.tags.slice(0, 2).map((tag: string) => (
-                          <span key={tag} className="text-[10px] bg-slate-100 text-slate-500 px-1.5 py-0.5 rounded">{tag}</span>
+                        {member.tags.slice(0, 2).map((tag: string, index: number) => (
+                          <span key={`${member.id}-tag-${index}`} className="text-[10px] bg-slate-100 text-slate-500 px-1.5 py-0.5 rounded">{tag}</span>
                         ))}
                       </div>
 
