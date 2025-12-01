@@ -1,10 +1,29 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { MapPin, ArrowRight, X, ChevronLeft, CheckCircle2 } from 'lucide-react';
-import { INITIAL_GROUPS } from '@/data/mockData';
+import { useConnectGroups } from '@/hooks/useConnectGroups';
 
 export function Groups() {
-  const [groups, setGroups] = useState(INITIAL_GROUPS);
+  const { groups: groupsData, loading } = useConnectGroups();
+  const [groups, setGroups] = useState<any[]>([]);
   const [selectedGroup, setSelectedGroup] = useState<any>(null);
+
+  // Sync groups from Firestore to local state
+  useEffect(() => {
+    if (groupsData.length > 0) {
+      setGroups(groupsData);
+    }
+  }, [groupsData]);
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-64">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+          <p className="mt-4 text-slate-600">Loading groups...</p>
+        </div>
+      </div>
+    );
+  }
 
   if (selectedGroup) {
     return (

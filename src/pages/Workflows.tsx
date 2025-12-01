@@ -1,9 +1,28 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Plus, Zap, ArrowRight } from 'lucide-react';
-import { INITIAL_WORKFLOWS } from '@/data/mockData';
+import { useWorkflows } from '@/hooks/useWorkflows';
 
 export function Workflows() {
-  const [workflows, setWorkflows] = useState(INITIAL_WORKFLOWS);
+  const { workflows: workflowsData, loading } = useWorkflows();
+  const [workflows, setWorkflows] = useState<any[]>([]);
+
+  // Sync workflows from Firestore to local state
+  useEffect(() => {
+    if (workflowsData.length > 0) {
+      setWorkflows(workflowsData);
+    }
+  }, [workflowsData]);
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-64">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+          <p className="mt-4 text-slate-600">Loading workflows...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-4xl mx-auto space-y-6">

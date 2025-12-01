@@ -1,10 +1,21 @@
 import { useState } from 'react';
 import { Scan, QrCode, CalendarCheck } from 'lucide-react';
-import { INITIAL_EVENTS } from '@/data/mockData';
+import { useEvents } from '@/hooks/useEvents';
 
 export function CheckIn() {
-  const [events] = useState(INITIAL_EVENTS);
+  const { events, loading } = useEvents();
   const [qrModalEvent, setQrModalEvent] = useState<any>(null);
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-64">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+          <p className="mt-4 text-slate-600">Loading events...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-5xl mx-auto space-y-6">
