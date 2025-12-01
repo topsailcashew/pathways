@@ -8,9 +8,7 @@ export function Workflows() {
 
   // Sync workflows from Firestore to local state
   useEffect(() => {
-    if (workflowsData.length > 0) {
-      setWorkflows(workflowsData);
-    }
+    setWorkflows(workflowsData);
   }, [workflowsData]);
 
   if (loading) {
@@ -36,8 +34,15 @@ export function Workflows() {
         </button>
       </div>
 
-      <div className="space-y-4">
-        {workflows.map((wf: any) => (
+      {workflows.length === 0 ? (
+        <div className="text-center py-12 text-slate-500">
+          <Zap size={48} className="mx-auto mb-4 text-slate-300" />
+          <p className="text-lg font-medium">No workflows yet</p>
+          <p className="text-sm mt-2">Create your first automated workflow to get started</p>
+        </div>
+      ) : (
+        <div className="space-y-4">
+          {workflows.map((wf: any) => (
           <div key={wf.id} className={`p-5 rounded-xl border flex items-center justify-between transition-all ${wf.active ? 'bg-white border-slate-200 shadow-sm' : 'bg-slate-50 border-slate-100 opacity-75'}`}>
             <div className="flex items-center gap-4">
               <div className={`p-3 rounded-lg ${wf.active ? 'bg-blue-50 text-blue-600' : 'bg-slate-200 text-slate-400'}`}>
@@ -68,7 +73,8 @@ export function Workflows() {
             </div>
           </div>
         ))}
-      </div>
+        </div>
+      )}
     </div>
   );
 }

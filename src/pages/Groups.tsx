@@ -9,9 +9,7 @@ export function Groups() {
 
   // Sync groups from Firestore to local state
   useEffect(() => {
-    if (groupsData.length > 0) {
-      setGroups(groupsData);
-    }
+    setGroups(groupsData);
   }, [groupsData]);
 
   if (loading) {
@@ -103,8 +101,15 @@ export function Groups() {
         </button>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {groups.map((group: any) => (
+      {groups.length === 0 ? (
+        <div className="text-center py-12 text-slate-500">
+          <MapPin size={48} className="mx-auto mb-4 text-slate-300" />
+          <p className="text-lg font-medium">No connect groups yet</p>
+          <p className="text-sm mt-2">Create your first connect group to get started</p>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {groups.map((group: any) => (
           <div
             key={group.id}
             onClick={() => setSelectedGroup(group)}
@@ -126,7 +131,8 @@ export function Groups() {
             </div>
           </div>
         ))}
-      </div>
+        </div>
+      )}
     </div>
   );
 }
