@@ -1,18 +1,25 @@
 import { useState } from 'react';
 import { Plus, ListTodo } from 'lucide-react';
-import { INITIAL_MEMBERS, TRACKS, STAGES } from '@/data/mockData';
+import { useMembers } from '@/hooks/useMembers';
+import { Track, Stage } from '@/types/enums';
+import { NEWCOMER_STAGES, NEW_BELIEVER_STAGES } from '@/utils/constants';
 
 export function Pipeline() {
-  const [members] = useState(INITIAL_MEMBERS);
-  const [pipelineFilter, setPipelineFilter] = useState<string>(TRACKS.NEWCOMER);
+  const { members, loading } = useMembers();
+  const [pipelineFilter, setPipelineFilter] = useState<Track>(Track.NEWCOMER);
 
-  const getPipelineStages = (track: string) => {
-    return Object.values(STAGES)
-      .filter((s: any) => s.track === track || s.track === 'shared')
-      .sort((a: any, b: any) => a.order - b.order);
-  };
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-64">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+          <p className="mt-4 text-slate-600">Loading pipeline...</p>
+        </div>
+      </div>
+    );
+  }
 
-  const stages = getPipelineStages(pipelineFilter);
+  const stages = pipelineFilter === Track.NEWCOMER ? NEWCOMER_STAGES : NEW_BELIEVER_STAGES;
 
   return (
     <div className="h-full flex flex-col">
@@ -21,14 +28,14 @@ export function Pipeline() {
           <h2 className="text-2xl font-bold text-slate-800">Pathway View</h2>
           <div className="bg-slate-100 p-1 rounded-lg flex text-sm font-medium">
             <button
-              onClick={() => setPipelineFilter(TRACKS.NEWCOMER)}
-              className={`px-4 py-1.5 rounded-md transition-all ${pipelineFilter === TRACKS.NEWCOMER ? 'bg-white text-blue-600 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
+              onClick={() => setPipelineFilter(Track.NEWCOMER)}
+              className={`px-4 py-1.5 rounded-md transition-all ${pipelineFilter === Track.NEWCOMER ? 'bg-white text-blue-600 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
             >
               Newcomer
             </button>
             <button
-              onClick={() => setPipelineFilter(TRACKS.BELIEVER)}
-              className={`px-4 py-1.5 rounded-md transition-all ${pipelineFilter === TRACKS.BELIEVER ? 'bg-white text-amber-600 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
+              onClick={() => setPipelineFilter(Track.NEW_BELIEVER)}
+              className={`px-4 py-1.5 rounded-md transition-all ${pipelineFilter === Track.NEW_BELIEVER ? 'bg-white text-amber-600 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
             >
               New Believer
             </button>

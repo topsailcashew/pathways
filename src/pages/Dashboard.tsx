@@ -1,15 +1,27 @@
-import { useState } from 'react';
 import { UserPlus, Heart, CheckCircle2, ListTodo } from 'lucide-react';
-import { INITIAL_MEMBERS, INITIAL_TASKS, TRACKS } from '@/data/mockData';
+import { useMembers } from '@/hooks/useMembers';
+import { useTasks } from '@/hooks/useTasks';
+import { Track } from '@/types/enums';
 
 export function Dashboard() {
-  const [members] = useState(INITIAL_MEMBERS);
-  const [tasks] = useState(INITIAL_TASKS);
+  const { members, loading: membersLoading } = useMembers();
+  const { tasks, loading: tasksLoading } = useTasks();
+
+  if (membersLoading || tasksLoading) {
+    return (
+      <div className="flex items-center justify-center h-64">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+          <p className="mt-4 text-slate-600">Loading dashboard...</p>
+        </div>
+      </div>
+    );
+  }
 
   const getStats = () => {
     const total = members.length;
-    const newcomers = members.filter((m: any) => m.type === TRACKS.NEWCOMER).length;
-    const believers = members.filter((m: any) => m.type === TRACKS.BELIEVER).length;
+    const newcomers = members.filter((m: any) => m.track === Track.NEWCOMER).length;
+    const believers = members.filter((m: any) => m.track === Track.NEW_BELIEVER).length;
     const serving = members.filter((m: any) => m.stage === 'serve').length;
     const overdueTasks = tasks.filter((t: any) => t.status === 'overdue').length;
     return { total, newcomers, believers, serving, overdueTasks };
