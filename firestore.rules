@@ -65,6 +65,38 @@ service cloud.firestore {
       allow delete: if isOwner(userId);
     }
 
+    // Communications: Staff can read/write, members can read their own
+    match /communications/{commId} {
+      allow read: if request.auth != null && (
+        get(/databases/$(database)/documents/members/$(request.auth.uid)).data.role == 'staff' ||
+        resource.data.memberId == request.auth.uid
+      );
+      allow write: if request.auth != null &&
+        get(/databases/$(database)/documents/members/$(request.auth.uid)).data.role == 'staff';
+    }
+
+    // Activity sub-collection: Staff can read/write, members can read their own
+    match /members/{memberId}/activity/{activityId} {
+      allow read: if request.auth != null && (
+        get(/databases/$(database)/documents/members/$(request.auth.uid)).data.role == 'staff' ||
+        request.auth.uid == memberId
+      );
+      allow write: if request.auth != null &&
+        get(/databases/$(database)/documents/members/$(request.auth.uid)).data.role == 'staff';
+    }
+
+    // Templates: Staff only
+    match /message_templates/{templateId} {
+      allow read, write: if request.auth != null &&
+        get(/databases/$(database)/documents/members/$(request.auth.uid)).data.role == 'staff';
+    }
+
+    // Triggers: Staff only
+    match /stage_triggers/{triggerId} {
+      allow read, write: if request.auth != null &&
+        get(/databases/$(database)/documents/members/$(request.auth.uid)).data.role == 'staff';
+    }
+
     // Deny all other access
     match /{document=**} {
       allow read, write: if false;
