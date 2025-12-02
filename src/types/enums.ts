@@ -11,6 +11,8 @@ export enum TaskStatus {
 export enum CommunicationType {
   EMAIL = 'email',
   SMS = 'sms',
+  WHATSAPP = 'whatsapp',
+  PHONE = 'phone',
 }
 
 export enum RosterStatus {
