@@ -41,9 +41,15 @@ export function useStageProgress(memberId: string, currentStage: string) {
           return;
         }
 
+        const triggerDoc = triggersSnapshot.docs[0];
+        if (!triggerDoc) {
+          setLoading(false);
+          return;
+        }
+
         stageTrigger = {
-          id: triggersSnapshot.docs[0].id,
-          ...triggersSnapshot.docs[0].data()
+          id: triggerDoc.id,
+          ...triggerDoc.data()
         } as StageTrigger;
 
         // 2. Subscribe to member's activity sub-collection
