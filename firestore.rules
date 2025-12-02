@@ -25,12 +25,6 @@ service cloud.firestore {
       allow create, update, delete: if isAuthenticated();
     }
 
-    // Communications collection
-    match /communications/{commId} {
-      allow read: if isAuthenticated();
-      allow create, update, delete: if isAuthenticated();
-    }
-
     // Events collection
     match /events/{eventId} {
       allow read: if isAuthenticated();
