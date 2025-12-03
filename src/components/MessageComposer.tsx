@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { Mail, MessageSquare, Phone } from 'lucide-react';
 import { CommunicationType } from '@/types/enums';
-import { MessageTemplate } from '@/types/models';
 import { useMessageTemplates } from '@/hooks/useMessageTemplates';
 
 interface MessageComposerProps {
@@ -17,7 +16,6 @@ interface MessageComposerProps {
 }
 
 export function MessageComposer({
-  memberId,
   memberName,
   currentStage,
   onSend
@@ -42,8 +40,8 @@ export function MessageComposer({
     const template = templates.find(t => t.id === templateId);
     if (template) {
       // Substitute variables
-      const variables = {
-        firstName: memberName.split(' ')[0],
+      const variables: Record<string, string> = {
+        firstName: memberName.split(' ')[0] || '',
         lastName: memberName.split(' ')[1] || '',
         stageName: currentStage,
         nextEventDate: 'TBD',

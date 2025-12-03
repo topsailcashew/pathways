@@ -56,7 +56,7 @@ export async function seedStageProgressionData() {
 
     for (const trigger of triggers) {
       try {
-        const docRef = await addDoc(collection(db, 'stage_triggers'), trigger);
+        await addDoc(collection(db, 'stage_triggers'), trigger);
         console.log(`✓ Created trigger: ${trigger.stageId} → ${trigger.nextStageId}`);
       } catch (error: any) {
         console.error(`Failed to create trigger ${trigger.stageId} → ${trigger.nextStageId}:`);

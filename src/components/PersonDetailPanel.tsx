@@ -1,5 +1,4 @@
-import { X, User } from 'lucide-react';
-import { useState } from 'react';
+import { X } from 'lucide-react';
 import { doc, runTransaction, Timestamp, addDoc, collection } from 'firebase/firestore';
 import { db } from '@/services/firebase';
 import { Member } from '@/types/models';
@@ -18,7 +17,6 @@ interface PersonDetailPanelProps {
 }
 
 export function PersonDetailPanel({ member, isOpen, onClose }: PersonDetailPanelProps) {
-  const [processing, setProcessing] = useState(false);
 
   const { progress, loading: progressLoading } = useStageProgress(
     member?.id || '',
@@ -33,7 +31,6 @@ export function PersonDetailPanel({ member, isOpen, onClose }: PersonDetailPanel
   const handleAdvanceStage = async () => {
     if (!progress.nextStage || !member) return;
 
-    setProcessing(true);
     try {
       await runTransaction(db, async (transaction) => {
         const memberRef = doc(db, 'members', member.id);
@@ -74,8 +71,6 @@ export function PersonDetailPanel({ member, isOpen, onClose }: PersonDetailPanel
       } else {
         alert('Failed to advance stage. Please try again.');
       }
-    } finally {
-      setProcessing(false);
     }
   };
 
