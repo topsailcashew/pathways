@@ -4,12 +4,9 @@ import { AppShell } from '@/components/layout/AppShell';
 import { ProtectedRoute } from '@/components/layout/ProtectedRoute';
 import { Login } from '@/pages/Login';
 import { Dashboard } from '@/pages/Dashboard';
-import { Pipeline } from '@/pages/Pipeline';
 import { People } from '@/pages/People';
-import { CheckIn } from '@/pages/CheckIn';
-import { Groups } from '@/pages/Groups';
+import { Ministry } from '@/pages/Ministry';
 import { Workflows } from '@/pages/Workflows';
-import { Ministries } from '@/pages/Ministries';
 import { Tasks } from '@/pages/Tasks';
 import { Reports } from '@/pages/Reports';
 
@@ -25,16 +22,6 @@ function App() {
               <ProtectedRoute>
                 <AppShell>
                   <Dashboard />
-                </AppShell>
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/pipeline"
-            element={
-              <ProtectedRoute>
-                <AppShell>
-                  <Pipeline />
                 </AppShell>
               </ProtectedRoute>
             }
@@ -60,21 +47,11 @@ function App() {
             }
           />
           <Route
-            path="/checkin"
+            path="/ministry"
             element={
               <ProtectedRoute>
                 <AppShell>
-                  <CheckIn />
-                </AppShell>
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/groups"
-            element={
-              <ProtectedRoute>
-                <AppShell>
-                  <Groups />
+                  <Ministry />
                 </AppShell>
               </ProtectedRoute>
             }
@@ -85,16 +62,6 @@ function App() {
               <ProtectedRoute>
                 <AppShell>
                   <Workflows />
-                </AppShell>
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/ministries"
-            element={
-              <ProtectedRoute>
-                <AppShell>
-                  <Ministries />
                 </AppShell>
               </ProtectedRoute>
             }

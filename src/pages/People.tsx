@@ -1,13 +1,17 @@
 import { useState } from 'react';
-import { ChevronRight, Mail, Phone, Tag, Calendar, User, X } from 'lucide-react';
+import { ChevronRight, Mail, Phone, Tag, Calendar, User, X, GitMerge, Users as UsersIcon } from 'lucide-react';
 import { useMembers } from '@/hooks/useMembers';
 import { STAGES } from '@/data/mockData';
 import { Member } from '@/types/models';
 import { Modal } from '@/components/common/Modal';
+import { Pipeline } from './Pipeline';
+
+type ViewType = 'pipeline' | 'directory';
 
 export function People() {
   const { members, loading } = useMembers();
   const [selectedMember, setSelectedMember] = useState<Member | null>(null);
+  const [activeView, setActiveView] = useState<ViewType>('pipeline');
 
   if (loading) {
     return (
@@ -20,14 +24,47 @@ export function People() {
     );
   }
 
+  const views = [
+    { id: 'pipeline' as ViewType, label: 'Pipeline', icon: GitMerge },
+    { id: 'directory' as ViewType, label: 'Directory', icon: UsersIcon },
+  ];
+
   return (
     <>
-      <div className="space-y-4">
-        <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
-          <div className="p-6 border-b border-slate-100 flex justify-between items-center">
-            <h3 className="font-bold text-slate-800">People Database</h3>
-            <button className="text-sm text-slate-500 hover:text-amber-600 font-medium">Export CSV</button>
-          </div>
+      <div className="space-y-6">
+        {/* Tab Navigation */}
+        <div className="border-b border-slate-200">
+          <nav className="flex gap-2">
+            {views.map((view) => {
+              const Icon = view.icon;
+              const isActive = activeView === view.id;
+              return (
+                <button
+                  key={view.id}
+                  onClick={() => setActiveView(view.id)}
+                  className={`flex items-center gap-2 px-6 py-3 border-b-2 transition-colors font-medium ${
+                    isActive
+                      ? 'border-amber-600 text-amber-600'
+                      : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300'
+                  }`}
+                >
+                  <Icon size={18} />
+                  {view.label}
+                </button>
+              );
+            })}
+          </nav>
+        </div>
+
+        {/* View Content */}
+        {activeView === 'pipeline' ? (
+          <Pipeline />
+        ) : (
+          <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+            <div className="p-6 border-b border-slate-100 flex justify-between items-center">
+              <h3 className="font-bold text-slate-800">People Database</h3>
+              <button className="text-sm text-slate-500 hover:text-amber-600 font-medium">Export CSV</button>
+            </div>
           <div className="overflow-x-auto">
             <table className="w-full text-left text-sm">
               <thead className="bg-slate-50 text-slate-500 border-b border-slate-100">
@@ -77,6 +114,7 @@ export function People() {
             </table>
           </div>
         </div>
+        )}
       </div>
 
       {/* Person Detail Modal */}

@@ -5,11 +5,9 @@ import {
   LayoutDashboard,
   Users,
   ListTodo,
-  QrCode,
   Workflow,
   Briefcase,
   BarChart3,
-  GitMerge,
 } from 'lucide-react';
 
 interface AppShellProps {
@@ -22,14 +20,11 @@ export function AppShell({ children }: AppShellProps) {
 
   const navItems = [
     { path: '/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
-    { path: '/pipeline', icon: GitMerge, label: 'Pipeline' },
-    { path: '/tasks', icon: ListTodo, label: 'Tasks' },
-    { path: '/checkin', icon: QrCode, label: 'Check-in' },
-    { path: '/groups', icon: Users, label: 'Groups' },
-    { path: '/workflows', icon: Workflow, label: 'Workflows' },
-    { path: '/ministries', icon: Briefcase, label: 'Ministries' },
-    { path: '/reports', icon: BarChart3, label: 'Reports' },
     { path: '/people', icon: Users, label: 'People' },
+    { path: '/tasks', icon: ListTodo, label: 'Tasks' },
+    { path: '/ministry', icon: Briefcase, label: 'Ministry' },
+    { path: '/workflows', icon: Workflow, label: 'Automation' },
+    { path: '/reports', icon: BarChart3, label: 'Reports' },
   ];
 
   return (
@@ -37,7 +32,7 @@ export function AppShell({ children }: AppShellProps) {
       {/* Sidebar Navigation */}
       <aside className="w-20 lg:w-64 bg-slate-900 text-slate-300 flex flex-col flex-shrink-0 transition-all duration-300">
         <div className="p-6 flex items-center gap-3 overflow-hidden">
-          <GitMerge className="text-amber-500 flex-shrink-0" size={24} />
+          <LayoutDashboard className="text-amber-500 flex-shrink-0" size={24} />
           <span className="text-white text-xl font-bold hidden lg:block">Pathways</span>
         </div>
 

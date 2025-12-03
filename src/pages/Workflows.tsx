@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
 import { Plus, Zap, ArrowRight } from 'lucide-react';
 import { useWorkflows } from '@/hooks/useWorkflows';
+import type { Workflow } from '@/types/models';
 
 export function Workflows() {
   const { workflows: workflowsData, loading } = useWorkflows();
-  const [workflows, setWorkflows] = useState<any[]>([]);
+  const [workflows, setWorkflows] = useState<Workflow[]>([]);
 
   // Sync workflows from Firestore to local state
   useEffect(() => {
@@ -42,7 +43,7 @@ export function Workflows() {
         </div>
       ) : (
         <div className="space-y-4">
-          {workflows.map((wf: any) => (
+          {workflows.map((wf) => (
           <div key={wf.id} className={`p-5 rounded-xl border flex items-center justify-between transition-all ${wf.active ? 'bg-white border-slate-200 shadow-sm' : 'bg-slate-50 border-slate-100 opacity-75'}`}>
             <div className="flex items-center gap-4">
               <div className={`p-3 rounded-lg ${wf.active ? 'bg-blue-50 text-blue-600' : 'bg-slate-200 text-slate-400'}`}>
@@ -51,15 +52,19 @@ export function Workflows() {
               <div>
                 <h3 className="font-bold text-slate-800">{wf.name}</h3>
                 <div className="flex items-center gap-2 text-xs text-slate-500 mt-1">
-                  <span className="bg-slate-100 px-2 py-0.5 rounded border border-slate-200">IF: {wf.trigger}</span>
+                  <span className="bg-slate-100 px-2 py-0.5 rounded border border-slate-200">
+                    IF: {wf.trigger.track} → {wf.trigger.stage}
+                  </span>
                   <ArrowRight size={12} />
-                  <span className="bg-amber-50 text-amber-700 px-2 py-0.5 rounded border border-amber-100">THEN: {wf.action}</span>
+                  <span className="bg-amber-50 text-amber-700 px-2 py-0.5 rounded border border-amber-100">
+                    THEN: Send {wf.action.type}
+                  </span>
                 </div>
               </div>
             </div>
             <div className="flex items-center gap-6">
               <div className="text-right hidden sm:block">
-                <span className="block text-xl font-bold text-slate-800">{wf.runs}</span>
+                <span className="block text-xl font-bold text-slate-800">{wf.runCount || 0}</span>
                 <span className="text-xs text-slate-400">Total Runs</span>
               </div>
               <div className="relative inline-flex items-center cursor-pointer" onClick={() => {
