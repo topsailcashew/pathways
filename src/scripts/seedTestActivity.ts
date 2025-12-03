@@ -31,8 +31,9 @@ export async function seedTestActivity() {
     return;
   }
 
-  const memberId = membersSnapshot.docs[0].id;
-  const memberName = membersSnapshot.docs[0].data().name;
+  const firstMember = membersSnapshot.docs[0]!;
+  const memberId = firstMember.id;
+  const memberName = firstMember.data().name;
   console.log(`Using member: ${memberName} (${memberId})`);
 
   // Seed event attendance activities
