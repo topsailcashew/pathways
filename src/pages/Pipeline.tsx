@@ -3,10 +3,13 @@ import { Plus, ListTodo } from 'lucide-react';
 import { useMembers } from '@/hooks/useMembers';
 import { Track } from '@/types/enums';
 import { NEWCOMER_STAGES, NEW_BELIEVER_STAGES } from '@/utils/constants';
+import { PersonDetailPanel } from '@/components/PersonDetailPanel';
+import { Member } from '@/types/models';
 
 export function Pipeline() {
   const { members, loading } = useMembers();
   const [pipelineFilter, setPipelineFilter] = useState<Track>(Track.NEWCOMER);
+  const [selectedMember, setSelectedMember] = useState<Member | null>(null);
 
   if (loading) {
     return (
@@ -63,6 +66,7 @@ export function Pipeline() {
                   {stageMembers.map((member: any) => (
                     <div
                       key={member.id}
+                      onClick={() => setSelectedMember(member)}
                       className="bg-white p-4 rounded-xl shadow-sm border border-slate-200 hover:shadow-md hover:border-amber-300 transition-all cursor-pointer group relative"
                     >
                       <div className="flex justify-between items-start mb-2">
@@ -103,6 +107,12 @@ export function Pipeline() {
           })}
         </div>
       </div>
+
+      <PersonDetailPanel
+        member={selectedMember}
+        isOpen={selectedMember !== null}
+        onClose={() => setSelectedMember(null)}
+      />
     </div>
   );
 }
