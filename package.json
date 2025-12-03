@@ -13,7 +13,8 @@
     "test:coverage": "vitest --coverage",
     "test:e2e": "playwright test",
     "seed": "tsx src/scripts/seedData.ts",
-    "seed:stage-progression": "tsx src/scripts/seedStageProgressionData.ts"
+    "seed:stage-progression": "tsx src/scripts/seedStageProgressionData.ts",
+    "seed:test-activity": "tsx src/scripts/seedTestActivity.ts"
   },
   "dependencies": {
     "date-fns": "^4.1.0",
