@@ -16,6 +16,7 @@
     "seed:stage-progression": "tsx src/scripts/seedStageProgressionData.ts"
   },
   "dependencies": {
+    "date-fns": "^4.1.0",
     "firebase": "^12.6.0",
     "lucide-react": "^0.555.0",
     "react": "^19.2.0",
