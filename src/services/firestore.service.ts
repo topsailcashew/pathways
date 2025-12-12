@@ -12,7 +12,7 @@ import {
   Timestamp,
 } from 'firebase/firestore';
 import { db } from './firebase';
-import { Member, Task, Communication, Event } from '@/types/models';
+import { Member, Task, Communication, Event, Workflow } from '@/types/models';
 
 const COLLECTIONS = {
   MEMBERS: 'members',
@@ -123,5 +123,27 @@ export const firestoreService = {
 
   async updateEvent(id: string, data: Partial<Event>): Promise<void> {
     await updateDoc(doc(db, COLLECTIONS.EVENTS, id), data);
+  },
+
+  // Workflows
+  async createWorkflow(data: Omit<Workflow, 'id'>): Promise<string> {
+    const docRef = await addDoc(collection(db, COLLECTIONS.WORKFLOWS), data);
+    return docRef.id;
+  },
+
+  async getWorkflows(): Promise<Workflow[]> {
+    const querySnapshot = await getDocs(collection(db, COLLECTIONS.WORKFLOWS));
+    return querySnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    })) as Workflow[];
+  },
+
+  async updateWorkflow(id: string, data: Partial<Workflow>): Promise<void> {
+    await updateDoc(doc(db, COLLECTIONS.WORKFLOWS, id), data);
+  },
+
+  async deleteWorkflow(id: string): Promise<void> {
+    await deleteDoc(doc(db, COLLECTIONS.WORKFLOWS, id));
   },
 };
